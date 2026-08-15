@@ -1,9 +1,10 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity,
   AlertTriangle,
   BarChart3,
+  Clock,
   FlaskConical,
   Map as MapIcon,
   Radar,
@@ -24,6 +25,29 @@ const NAV = [
 ] as const;
 
 const WEATHERS: WeatherCondition[] = ["clear", "light-rain", "heavy-rain", "fog"];
+
+function LiveClock() {
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    setNow(new Date());
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-1.5">
+      <Clock className="size-3.5 text-primary" />
+      <span className="font-mono text-xs text-muted-foreground">
+        {now
+          ? now.toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short", year: "numeric" })
+          : "--"}
+      </span>
+      <span className="font-mono text-xs tabular-nums text-foreground">
+        {now ? now.toLocaleTimeString("en-IN", { hour12: false }) : "--:--:--"}
+      </span>
+    </div>
+  );
+}
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -93,6 +117,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Activity className="size-3.5 text-risk-low animate-blink" />
               <span className="font-mono text-xs text-muted-foreground">LIVE FEED</span>
             </div>
+
+            <LiveClock />
 
             <label className="flex items-center gap-3">
               <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Clock</span>
