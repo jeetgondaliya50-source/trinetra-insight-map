@@ -86,14 +86,14 @@ const RANKS: Officer["rank"][] = ["Constable", "Constable", "Constable", "Head C
 const SHIFTS: Officer["shift"][] = ["A (06-14)", "B (14-22)", "C (22-06)"];
 
 export const OFFICERS: Officer[] = Array.from({ length: 72 }, (_, i) => {
-  const j = JUNCTIONS[i % JUNCTIONS.length];
+  const j = JUNCTIONS[i % JUNCTIONS.length]!;
   return {
     id: `OFF-${String(i + 101).padStart(3, "0")}`,
-    name: `${FIRST[i % FIRST.length]} ${LAST[(i * 3) % LAST.length]}`,
-    rank: RANKS[i % RANKS.length],
-    shift: SHIFTS[i % 3],
+    name: `${FIRST[i % FIRST.length]!} ${LAST[(i * 3) % LAST.length]!}`,
+    rank: RANKS[i % RANKS.length]!,
+    shift: SHIFTS[i % 3]!,
     postId: j.id,
-    status: i % 11 === 0 ? "break" : i % 7 === 0 ? "available" : "deployed",
+    status: (i % 11 === 0 ? "break" : i % 7 === 0 ? "available" : "deployed") as Officer["status"],
     fatigue: Number((((i * 37) % 100) / 100).toFixed(2)),
   };
 });
