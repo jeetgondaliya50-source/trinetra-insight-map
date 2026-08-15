@@ -118,6 +118,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               <span className="font-mono text-xs text-muted-foreground">LIVE FEED</span>
             </div>
 
+            <LiveClock />
+
             <label className="flex items-center gap-3">
               <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Clock</span>
               <input
