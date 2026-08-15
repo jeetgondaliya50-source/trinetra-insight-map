@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DeploymentRouteImport } from './routes/deployment'
+import { Route as IncidentsRouteImport } from './routes/incidents'
 import { Route as RiskRouteImport } from './routes/risk'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const DeploymentRoute = DeploymentRouteImport.update({
   path: '/deployment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IncidentsRoute = IncidentsRouteImport.update({
+  id: '/incidents',
+  path: '/incidents',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RiskRoute = RiskRouteImport.update({
   id: '/risk',
   path: '/risk',
@@ -32,30 +38,34 @@ const RiskRoute = RiskRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/deployment': typeof DeploymentRoute
+  '/incidents': typeof IncidentsRoute
   '/risk': typeof RiskRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/deployment': typeof DeploymentRoute
+  '/incidents': typeof IncidentsRoute
   '/risk': typeof RiskRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/deployment': typeof DeploymentRoute
+  '/incidents': typeof IncidentsRoute
   '/risk': typeof RiskRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/deployment' | '/risk'
+  fullPaths: '/' | '/deployment' | '/incidents' | '/risk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/deployment' | '/risk'
-  id: '__root__' | '/' | '/deployment' | '/risk'
+  to: '/' | '/deployment' | '/incidents' | '/risk'
+  id: '__root__' | '/' | '/deployment' | '/incidents' | '/risk'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DeploymentRoute: typeof DeploymentRoute
+  IncidentsRoute: typeof IncidentsRoute
   RiskRoute: typeof RiskRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DeploymentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/incidents': {
+      id: '/incidents'
+      path: '/incidents'
+      fullPath: '/incidents'
+      preLoaderRoute: typeof IncidentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/risk': {
       id: '/risk'
       path: '/risk'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DeploymentRoute: DeploymentRoute,
+  IncidentsRoute: IncidentsRoute,
   RiskRoute: RiskRoute,
 }
 export const routeTree = rootRouteImport
